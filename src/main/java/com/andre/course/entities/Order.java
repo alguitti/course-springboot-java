@@ -3,7 +3,9 @@ package com.andre.course.entities;
 import java.io.Serializable;
 //a partir do java 8 maneira melhor para tratar tempo
 import java.time.Instant;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,6 +13,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.andre.course.entities.enums.OrderStatus;
@@ -37,6 +40,10 @@ public class Order implements Serializable{
 	//para gerar a chave estrangeira
 	@JoinColumn(name = "client_id")
 	private User client;
+	
+	//o id do OrderItem quem tem o order com ManytoOne
+	@OneToMany(mappedBy = "id.order")
+	private Set<OrderItem> items = new HashSet<>();
 	
 	public Order() { }
 	
@@ -79,6 +86,10 @@ public class Order implements Serializable{
 
 	public void setClient(User client) {
 		this.client = client;
+	}
+	
+	public Set<OrderItem> getItems() {
+		return items;
 	}
 
 	@Override
