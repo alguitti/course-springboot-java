@@ -12,6 +12,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "tb_user")
 public class User implements Serializable{
@@ -24,8 +26,14 @@ public class User implements Serializable{
 	private String email;
 	private String phone;
 	private String password;
-	//associações um para muitos orders
-	//collection somente método get
+	/*********************************
+	*associações um para muitos orders
+	*collection somente método get
+	*Json Ignore para não gerar loop nas consultas clientes / Order 
+	*lazy loading - o lado um carrega na chamada da classe associada, 
+	*o lado contrario não carrega o muitos
+	***********************************/
+	@JsonIgnore
 	@OneToMany(mappedBy = "client")
 	private List<Order> orders = new ArrayList<>();
 	
@@ -103,8 +111,10 @@ public class User implements Serializable{
 	@Override
 	public String toString() {
 		return "User [id=" + id + ", name=" + name + ", email=" + email + ", phone=" + phone + ", password=" + password
-				+ "]";
+				+ ", orders=" + orders + "]";
 	}
+
+	
 	
 	
 	
