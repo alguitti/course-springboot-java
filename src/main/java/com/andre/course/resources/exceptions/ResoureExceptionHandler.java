@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.andre.course.services.exceptions.DatabaseException;
 import com.andre.course.services.exceptions.ResourceNotFoundException;
 
 @ControllerAdvice //intercepta as exceptions para que o objeto execute tratamento
@@ -22,5 +23,15 @@ public class ResoureExceptionHandler {
 		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
 		return ResponseEntity.status(status).body(err);
 	}
+	
+	@ExceptionHandler(DatabaseException.class) //esse metodo intercepta qualquer exception desse tipo
+	public ResponseEntity<StandardError> deleteException(DatabaseException e, HttpServletRequest request) {
+		
+		String error = "User has objects attached";
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+		return ResponseEntity.status(status).body(err);
+	}
+	
 	
 }
