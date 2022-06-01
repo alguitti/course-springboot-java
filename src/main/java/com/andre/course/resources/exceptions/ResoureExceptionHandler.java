@@ -24,7 +24,7 @@ public class ResoureExceptionHandler {
 		return ResponseEntity.status(status).body(err);
 	}
 	
-	@ExceptionHandler(DatabaseException.class) //esse metodo intercepta qualquer exception desse tipo
+	@ExceptionHandler(DatabaseException.class) 
 	public ResponseEntity<StandardError> deleteException(DatabaseException e, HttpServletRequest request) {
 		
 		String error = "User has objects attached";
